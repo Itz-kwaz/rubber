@@ -22,6 +22,7 @@ class RubberBottomSheet extends StatefulWidget {
       this.dragFriction = 0.52,
       this.onDragStart,
       this.onDragEnd,
+        this.onVerticalDragUpdate,
       this.onTap})
       : assert(animationController != null),
         super(key: key);
@@ -36,6 +37,8 @@ class RubberBottomSheet extends StatefulWidget {
   /// Called when the user stops scrolling, if this function returns a false the bottomsheet
   /// won't complete the next onDragEnd instructions
   final Function() onDragEnd;
+
+  final GestureDragUpdateCallback onVerticalDragUpdate;
 
   /// Called when the user stops scrolling, if this function returns a false the bottomsheet
   /// won't complete the next onDragEnd instructions
@@ -219,6 +222,7 @@ class RubberBottomSheetState extends State<RubberBottomSheet>
 
   void _onVerticalDragUpdate(DragUpdateDetails details) {
     if (_enabled) {
+      widget.onVerticalDragUpdate(details);
       _lastPosition = details.globalPosition;
       if (_scrolling && _shouldScroll) {
         // _drag might be null if the drag activity ended and called _disposeDrag.
